@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="导航,分享,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数字签名、信息加密 是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法，或者需要搭配不一样的 签名加密算法 来达到业务目标。这里简单的给大家介绍几种常见的签名加密算法和一些典型场景下的应用。 七种加密算法及实现一、数字签名数字签名，简单来说就是通过提供可鉴别的数字信息验证自身身份的一种方式。一套数字签名通常定">
+<meta name="keywords" content="导航,分享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用加密算法">
+<meta property="og:url" content="http://yoursite.com/2019/09/26/常用加密算法/index.html">
+<meta property="og:site_name" content="XZHong">
+<meta property="og:description" content="数字签名、信息加密 是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法，或者需要搭配不一样的 签名加密算法 来达到业务目标。这里简单的给大家介绍几种常见的签名加密算法和一些典型场景下的应用。 七种加密算法及实现一、数字签名数字签名，简单来说就是通过提供可鉴别的数字信息验证自身身份的一种方式。一套数字签名通常定">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/09/26/常用加密算法/散列算法.PNG">
+<meta property="og:image" content="http://yoursite.com/2019/09/26/常用加密算法/对称加密.PNG">
+<meta property="og:image" content="http://yoursite.com/2019/09/26/常用加密算法/非对称加密.PNG">
+<meta property="og:updated_time" content="2019-09-26T16:12:01.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用加密算法">
+<meta name="twitter:description" content="数字签名、信息加密 是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法，或者需要搭配不一样的 签名加密算法 来达到业务目标。这里简单的给大家介绍几种常见的签名加密算法和一些典型场景下的应用。 七种加密算法及实现一、数字签名数字签名，简单来说就是通过提供可鉴别的数字信息验证自身身份的一种方式。一套数字签名通常定">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/26/常用加密算法/散列算法.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/26/常用加密算法/">
+
+
+
+
+
+  <title>常用加密算法 | XZHong</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XZHong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/26/常用加密算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xhong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/xingye.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XZHong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常用加密算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T09:59:27+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/加密算法/" itemprop="url" rel="index">
+                    <span itemprop="name">加密算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/常用加密算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/常用加密算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">本文总阅读数 <i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计 字;</span>
+                
+                <span title="字数统计">
+                  3.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 分钟</span>
+                
+                <span title="阅读时长">
+                  18
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>数字签名、信息加密 是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法，或者需要搭配不一样的 签名加密算法 来达到业务目标。这里简单的给大家介绍几种常见的签名加密算法和一些典型场景下的应用。<br><br></p>
+<h1 id="七种加密算法及实现"><a href="#七种加密算法及实现" class="headerlink" title="七种加密算法及实现"></a>七种加密算法及实现</h1><h2 id="一、数字签名"><a href="#一、数字签名" class="headerlink" title="一、数字签名"></a>一、数字签名</h2><p>数字签名，简单来说就是通过提供可鉴别的数字信息验证自身身份的一种方式。一套数字签名通常定义两种互补的运算，一个用于 签名，另一个用于验证。分别由发送者持有能够 代表自己身份的私钥(私钥不可泄露),由接受者持有与私钥对应的公钥 ，能够在接受 到来自发送者信息时用于验证其身份。</p>
+<pre><code>注意：加密过程有别于公钥加密。签名最根本的用途是要能够唯一证明发送方的身份，防止中间人攻击、CSRF跨域身份伪造。基于这一点在诸如 设备认证、用户认证、第三方认证等认证体系中都会使用到签名算法(彼此的实现方式可能会有差异)。
+</code></pre><h2 id="二、加密解密"><a href="#二、加密解密" class="headerlink" title="二、加密解密"></a>二、加密解密</h2><p>1.加密：数据加密的基本过程，就是对原来为明文的文件或数据按某种算法进行处理，使其成为不可读的一段代码，通常称为 “密文”。通过这样的途径，来达到保护数据 不被 非法人窃取、阅读的目的。 </p>
+<p>2.解密：加密的逆过程为解密，即将该编码信息转化为其原来数据的过程。</p>
+<h2 id="三、对称加密和非对称加密"><a href="#三、对称加密和非对称加密" class="headerlink" title="三、对称加密和非对称加密"></a>三、对称加密和非对称加密</h2><p>加密算法分对称加密和非对称加密，其中对称加密算法的加密与解密的密钥相同，非对称加密算法的加密密钥与解密密钥不同，此外，还有一类 不需要密钥的散列算法。</p>
+<pre><code>常见的对称加密算法主要有 **DES、3DES、AES** 等，常见的 非对称算法主要有 **RSA、DSA** 等，散列算法主要有 **SHA-1、MD5** 等。
+</code></pre><h3 id="1-对称加密"><a href="#1-对称加密" class="headerlink" title="1. 对称加密"></a>1. 对称加密</h3><p>对称加密算法是应用较早的加密算法，又称为共享密钥加密算法。在对称加密算法中，使用的密钥只有一个，发送 和 接收 双方都使用这个密钥对数据进行 加密 和 解密。这就要求加密和解密方事先都必须知道加密的密钥。</p>
+<p>数据加密过程：在对称加密算法中，数据发送方 将 明文 (原始数据) 和 加密密钥 一起经过特殊 加密处理，生成复杂的 加密密文 进行发送。</p>
+<p>数据解密过程：数据接收方 收到密文后，若想读取原数据，则需要使用 加密使用的密钥 及相同算法的 逆算法 对加密的密文进行解密，才能使其恢复成 可读明文。</p>
+<h3 id="2-非对称加密"><a href="#2-非对称加密" class="headerlink" title="2. 非对称加密"></a>2. 非对称加密</h3><p>非对称加密算法，又称为 公开密钥加密算法。它需要两个密钥，一个称为 公开密钥 (public key)，即 公钥，另一个称为 私有密钥 (private key)，即 私钥。</p>
+<p>因为 加密 和 解密 使用的是两个不同的密钥，所以这种算法称为 非对称加密算法。</p>
+<p>如果使用 公钥 对数据 进行加密，只有用对应的 私钥 才能 进行解密。</p>
+<p>如果使用 私钥 对数据 进行加密，只有用对应的 公钥 才能 进行解密。</p>
+<pre><code>例子：甲方生成 一对密钥 并将其中的一把作为 公钥 向其它人公开，得到该公钥的 乙方 使用该密钥对机密信息 进行加密 后再发送给甲方，甲方再使用自己保存的另一把 专用密钥 (私钥)，对 加密 后的信息 进行解密。
+</code></pre><h2 id="四、常见的签名加密算法"><a href="#四、常见的签名加密算法" class="headerlink" title="四、常见的签名加密算法"></a>四、常见的签名加密算法</h2><h3 id="1-MD5算法"><a href="#1-MD5算法" class="headerlink" title="1. MD5算法"></a>1. MD5算法</h3><p>MD5 用的是 哈希函数，它的典型应用是对一段信息产生 信息摘要，以 防止被篡改。严格来说，MD5 不是一种 加密算法 而是 摘要算法。无论是多长的输入，MD5 都会输出长度为 128bits 的一个串 (通常用 16 进制 表示为 32 个字符)。<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static final byte[] computeMD5(byte[] content) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        MessageDigest md5 = MessageDigest.getInstance(&quot;MD5&quot;);</span><br><span class="line">        return md5.digest(content);</span><br><span class="line">    &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-SHA1算法"><a href="#2-SHA1算法" class="headerlink" title="2. SHA1算法"></a>2. SHA1算法</h3><p>SHA1 是和 MD5 一样流行的 消息摘要算法，然而 SHA1 比 MD5 的 安全性更强。对于长度小于 2 ^ 64 位的消息，SHA1 会产生一个 160 位的 消息摘要。基于 MD5、SHA1 的信息摘要特性以及 不可逆 (一般而言)，可以被应用在检查 文件完整性 以及 数字签名 等场景。<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static byte[] computeSHA1(byte[] content) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        MessageDigest sha1 = MessageDigest.getInstance(&quot;SHA1&quot;);</span><br><span class="line">        return sha1.digest(content);</span><br><span class="line">    &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-HMAC算法"><a href="#3-HMAC算法" class="headerlink" title="3. HMAC算法"></a>3. HMAC算法</h3><p>HMAC 是密钥相关的 哈希运算消息认证码（Hash-based Message Authentication Code），HMAC 运算利用 哈希算法 (MD5、SHA1 等)，以 一个密钥 和 一个消息 为输入，生成一个 消息摘要 作为 输出。</p>
+<p>HMAC 发送方 和 接收方 都有的 key 进行计算，而没有这把 key 的第三方，则是 无法计算 出正确的 散列值的，这样就可以 防止数据被篡改。<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">package net.pocrd.util;</span><br><span class="line">import net.pocrd.annotation.NotThreadSafe;</span><br><span class="line">import net.pocrd.define.ConstField;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import javax.crypto.Mac;</span><br><span class="line">import javax.crypto.SecretKey;</span><br><span class="line">import javax.crypto.spec.SecretKeySpec;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">@NotThreadSafe</span><br><span class="line">public class HMacHelper &#123;</span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(HMacHelper.class);</span><br><span class="line">    private Mac mac;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * MAC算法可选以下多种算法</span><br><span class="line">     * HmacMD5/HmacSHA1/HmacSHA256/HmacSHA384/HmacSHA512</span><br><span class="line">     */</span><br><span class="line">    private static final String KEY_MAC = &quot;HmacMD5&quot;;</span><br><span class="line">    public HMacHelper(String key) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            SecretKey secretKey = new SecretKeySpec(key.getBytes(ConstField.UTF8), KEY_MAC);</span><br><span class="line">            mac = Mac.getInstance(secretKey.getAlgorithm());</span><br><span class="line">            mac.init(secretKey);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;create hmac helper failed.&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public byte[] sign(byte[] content) &#123;</span><br><span class="line">        return mac.doFinal(content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean verify(byte[] signature, byte[] content) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            byte[] result = mac.doFinal(content);</span><br><span class="line">            return Arrays.equals(signature, result);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;verify sig failed.&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>注意：HMAC 算法实例在 多线程环境下是 不安全的。需要在 多线程访问 时，进行同步的辅助类，使用 ThreadLocal 为 每个线程缓存 一个实例可以避免进行锁操作。
+</code></pre><h3 id="4-AES-DES-3DES算法"><a href="#4-AES-DES-3DES算法" class="headerlink" title="4. AES/DES/3DES算法"></a>4. AES/DES/3DES算法</h3><p>AES、DES、3DES 都是 对称 的 块加密算法，加解密 的过程是 可逆的。常用的有 AES128、AES192、AES256 (默认安装的 JDK 尚不支持 AES256，需要安装对应的 jce 补丁进行升级 jce1.7，jce1.8)。</p>
+<p>① DES算法<br>DES 加密算法是一种 分组密码，以 64 位为 分组对数据 加密，它的 密钥长度 是 56 位，加密解密 用 同一算法。</p>
+<p>DES 加密算法是对 密钥 进行保密，而 公开算法，包括加密和解密算法。这样，只有掌握了和发送方 相同密钥 的人才能解读由 DES加密算法加密的密文数据。因此，破译 DES 加密算法实际上就是 搜索密钥的编码。对于 56 位长度的 密钥 来说，如果用 穷举法 来进行搜索的话，其运算次数为 2 ^ 56 次。</p>
+<p>② 3DES算法<br>是基于 DES 的 对称算法，对 一块数据 用 三个不同的密钥 进行 三次加密，强度更高。</p>
+<p>③ AES算法<br>AES 加密算法是密码学中的 高级加密标准，该加密算法采用 对称分组密码体制，密钥长度的最少支持为 128 位、 192 位、256 位，分组长度 128 位，算法应易于各种硬件和软件实现。这种加密算法是美国联邦政府采用的 区块加密标准。</p>
+<p>AES 本身就是为了取代 DES 的，AES 具有更好的 安全性、效率 和 灵活性。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">import net.pocrd.annotation.NotThreadSafe;</span><br><span class="line">import javax.crypto.Cipher;</span><br><span class="line">import javax.crypto.KeyGenerator;</span><br><span class="line">import javax.crypto.spec.IvParameterSpec;</span><br><span class="line">import javax.crypto.spec.SecretKeySpec;</span><br><span class="line">import java.security.SecureRandom;</span><br><span class="line"></span><br><span class="line">@NotThreadSafe</span><br><span class="line">public class AesHelper &#123;</span><br><span class="line">    private SecretKeySpec keySpec;</span><br><span class="line">    private IvParameterSpec iv;</span><br><span class="line"></span><br><span class="line">    public AesHelper(byte[] aesKey, byte[] iv) &#123;</span><br><span class="line">        if (aesKey == null || aesKey.length &lt; 16 || (iv != null &amp;&amp; iv.length &lt; 16)) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;错误的初始密钥&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (iv == null) &#123;</span><br><span class="line">            iv = Md5Util.compute(aesKey);</span><br><span class="line">        &#125;</span><br><span class="line">        keySpec = new SecretKeySpec(aesKey, &quot;AES&quot;);</span><br><span class="line">        this.iv = new IvParameterSpec(iv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public AesHelper(byte[] aesKey) &#123;</span><br><span class="line">        if (aesKey == null || aesKey.length &lt; 16) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;错误的初始密钥&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        keySpec = new SecretKeySpec(aesKey, &quot;AES&quot;);</span><br><span class="line">        this.iv = new IvParameterSpec(Md5Util.compute(aesKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] encrypt(byte[] data) &#123;</span><br><span class="line">        byte[] result = null;</span><br><span class="line">        Cipher cipher = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            cipher = Cipher.getInstance(&quot;AES/CFB/NoPadding&quot;);</span><br><span class="line">            cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv);</span><br><span class="line">            result = cipher.doFinal(data);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] decrypt(byte[] secret) &#123;</span><br><span class="line">        byte[] result = null;</span><br><span class="line">        Cipher cipher = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            cipher = Cipher.getInstance(&quot;AES/CFB/NoPadding&quot;);</span><br><span class="line">            cipher.init(Cipher.DECRYPT_MODE, keySpec, iv);</span><br><span class="line">            result = cipher.doFinal(secret);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static byte[] randomKey(int size) &#123;</span><br><span class="line">        byte[] result = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            KeyGenerator gen = KeyGenerator.getInstance(&quot;AES&quot;);</span><br><span class="line">            gen.init(size, new SecureRandom());</span><br><span class="line">            result = gen.generateKey().getEncoded();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="5-RSA算法"><a href="#5-RSA算法" class="headerlink" title="5. RSA算法"></a>5. RSA算法</h3><p>RSA 加密算法是目前最有影响力的 公钥加密算法，并且被普遍认为是目前 最优秀的公钥方案 之一。RSA 是第一个能同时用于 加密 和 数字签名 的算法，它能够 抵抗 到目前为止已知的 所有密码攻击，已被 ISO 推荐为公钥数据加密标准。</p>
+<pre><code>RSA 加密算法 基于一个十分简单的数论事实：将两个大 素数 相乘十分容易，但想要对其乘积进行 因式分解 却极其困难，因此可以将 乘积 公开作为 加密密钥。
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line">import net.pocrd.annotation.NotThreadSafe;</span><br><span class="line">import org.bouncycastle.jce.provider.BouncyCastleProvider;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import javax.crypto.Cipher;</span><br><span class="line">import java.io.ByteArrayOutputStream;</span><br><span class="line">import java.security.KeyFactory;</span><br><span class="line">import java.security.Security;</span><br><span class="line">import java.security.Signature;</span><br><span class="line">import java.security.interfaces.RSAPrivateCrtKey;</span><br><span class="line">import java.security.interfaces.RSAPublicKey;</span><br><span class="line">import java.security.spec.PKCS8EncodedKeySpec;</span><br><span class="line">import java.security.spec.X509EncodedKeySpec;</span><br><span class="line"></span><br><span class="line">@NotThreadSafe</span><br><span class="line">public class RsaHelper &#123;</span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(RsaHelper.class);</span><br><span class="line">    private RSAPublicKey publicKey;</span><br><span class="line">    private RSAPrivateCrtKey privateKey;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        Security.addProvider(new BouncyCastleProvider()); //使用bouncycastle作为加密算法实现</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RsaHelper(String publicKey, String privateKey) &#123;</span><br><span class="line">        this(Base64Util.decode(publicKey), Base64Util.decode(privateKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RsaHelper(byte[] publicKey, byte[] privateKey) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            KeyFactory keyFactory = KeyFactory.getInstance(&quot;RSA&quot;);</span><br><span class="line">            if (publicKey != null &amp;&amp; publicKey.length &gt; 0) &#123;</span><br><span class="line">                this.publicKey = (RSAPublicKey)keyFactory.generatePublic(new X509EncodedKeySpec(publicKey));</span><br><span class="line">            &#125;</span><br><span class="line">            if (privateKey != null &amp;&amp; privateKey.length &gt; 0) &#123;</span><br><span class="line">                this.privateKey = (RSAPrivateCrtKey)keyFactory.generatePrivate(new PKCS8EncodedKeySpec(privateKey));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RsaHelper(String publicKey) &#123;</span><br><span class="line">        this(Base64Util.decode(publicKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RsaHelper(byte[] publicKey) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            KeyFactory keyFactory = KeyFactory.getInstance(&quot;RSA&quot;);</span><br><span class="line">            if (publicKey != null &amp;&amp; publicKey.length &gt; 0) &#123;</span><br><span class="line">                this.publicKey = (RSAPublicKey)keyFactory.generatePublic(new X509EncodedKeySpec(publicKey));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] encrypt(byte[] content) &#123;</span><br><span class="line">        if (publicKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;public key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (content == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            Cipher cipher = Cipher.getInstance(&quot;RSA/ECB/PKCS1Padding&quot;);</span><br><span class="line">            cipher.init(Cipher.ENCRYPT_MODE, publicKey);</span><br><span class="line">            int size = publicKey.getModulus().bitLength() / 8 - 11;</span><br><span class="line">            ByteArrayOutputStream baos = new ByteArrayOutputStream((content.length + size - 1) / size * (size + 11));</span><br><span class="line">            int left = 0;</span><br><span class="line">            for (int i = 0; i &lt; content.length; ) &#123;</span><br><span class="line">                left = content.length - i;</span><br><span class="line">                if (left &gt; size) &#123;</span><br><span class="line">                    cipher.update(content, i, size);</span><br><span class="line">                    i += size;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    cipher.update(content, i, left);</span><br><span class="line">                    i += left;</span><br><span class="line">                &#125;</span><br><span class="line">                baos.write(cipher.doFinal());</span><br><span class="line">            &#125;</span><br><span class="line">            return baos.toByteArray();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] decrypt(byte[] secret) &#123;</span><br><span class="line">        if (privateKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;private key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (secret == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            Cipher cipher = Cipher.getInstance(&quot;RSA/ECB/PKCS1Padding&quot;);</span><br><span class="line">            cipher.init(Cipher.DECRYPT_MODE, privateKey);</span><br><span class="line">            int size = privateKey.getModulus().bitLength() / 8;</span><br><span class="line">            ByteArrayOutputStream baos = new ByteArrayOutputStream((secret.length + size - 12) / (size - 11) * size);</span><br><span class="line">            int left = 0;</span><br><span class="line">            for (int i = 0; i &lt; secret.length; ) &#123;</span><br><span class="line">                left = secret.length - i;</span><br><span class="line">                if (left &gt; size) &#123;</span><br><span class="line">                    cipher.update(secret, i, size);</span><br><span class="line">                    i += size;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    cipher.update(secret, i, left);</span><br><span class="line">                    i += left;</span><br><span class="line">                &#125;</span><br><span class="line">                baos.write(cipher.doFinal());</span><br><span class="line">            &#125;</span><br><span class="line">            return baos.toByteArray();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;rsa decrypt failed.&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] sign(byte[] content) &#123;</span><br><span class="line">        if (privateKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;private key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (content == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            Signature signature = Signature.getInstance(&quot;SHA1WithRSA&quot;);</span><br><span class="line">            signature.initSign(privateKey);</span><br><span class="line">            signature.update(content);</span><br><span class="line">            return signature.sign();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean verify(byte[] sign, byte[] content) &#123;</span><br><span class="line">        if (publicKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;public key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (sign == null || content == null) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            Signature signature = Signature.getInstance(&quot;SHA1WithRSA&quot;);</span><br><span class="line">            signature.initVerify(publicKey);</span><br><span class="line">            signature.update(content);</span><br><span class="line">            return signature.verify(sign);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;rsa verify failed.&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="6-ECC算法"><a href="#6-ECC算法" class="headerlink" title="6. ECC算法"></a>6. ECC算法</h3><p>ECC 也是一种 非对称加密算法，主要优势是在某些情况下，它比其他的方法使用 更小的密钥，比如 RSA 加密算法，提供 相当的或更高等级 的安全级别。不过一个缺点是 加密和解密操作 的实现比其他机制 时间长 (相比 RSA 算法，该算法对 CPU 消耗严重)。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line">import net.pocrd.annotation.NotThreadSafe;</span><br><span class="line">import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;</span><br><span class="line">import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;</span><br><span class="line">import org.bouncycastle.jce.provider.BouncyCastleProvider;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import javax.crypto.Cipher;</span><br><span class="line">import java.io.ByteArrayOutputStream;</span><br><span class="line">import java.security.KeyFactory;</span><br><span class="line">import java.security.Security;</span><br><span class="line">import java.security.Signature;</span><br><span class="line">import java.security.spec.PKCS8EncodedKeySpec;</span><br><span class="line">import java.security.spec.X509EncodedKeySpec;</span><br><span class="line"></span><br><span class="line">@NotThreadSafe</span><br><span class="line">public class EccHelper &#123;</span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(EccHelper.class);</span><br><span class="line">    private static final int SIZE = 4096;</span><br><span class="line">    private BCECPublicKey  publicKey;</span><br><span class="line">    private BCECPrivateKey privateKey;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        Security.addProvider(new BouncyCastleProvider());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public EccHelper(String publicKey, String privateKey) &#123;</span><br><span class="line">        this(Base64Util.decode(publicKey), Base64Util.decode(privateKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public EccHelper(byte[] publicKey, byte[] privateKey) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            KeyFactory keyFactory = KeyFactory.getInstance(&quot;EC&quot;, &quot;BC&quot;);</span><br><span class="line">            if (publicKey != null &amp;&amp; publicKey.length &gt; 0) &#123;</span><br><span class="line">                this.publicKey = (BCECPublicKey)keyFactory.generatePublic(new X509EncodedKeySpec(publicKey));</span><br><span class="line">            &#125;</span><br><span class="line">            if (privateKey != null &amp;&amp; privateKey.length &gt; 0) &#123;</span><br><span class="line">                this.privateKey = (BCECPrivateKey)keyFactory.generatePrivate(new PKCS8EncodedKeySpec(privateKey));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (ClassCastException e) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;&quot;, e);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public EccHelper(String publicKey) &#123;</span><br><span class="line">        this(Base64Util.decode(publicKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public EccHelper(byte[] publicKey) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            KeyFactory keyFactory = KeyFactory.getInstance(&quot;EC&quot;, &quot;BC&quot;);</span><br><span class="line">            if (publicKey != null &amp;&amp; publicKey.length &gt; 0) &#123;</span><br><span class="line">                this.publicKey = (BCECPublicKey)keyFactory.generatePublic(new X509EncodedKeySpec(publicKey));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] encrypt(byte[] content) &#123;</span><br><span class="line">        if (publicKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;public key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            Cipher cipher = Cipher.getInstance(&quot;ECIES&quot;, &quot;BC&quot;);</span><br><span class="line">            cipher.init(Cipher.ENCRYPT_MODE, publicKey);</span><br><span class="line">            int size = SIZE;</span><br><span class="line">            ByteArrayOutputStream baos = new ByteArrayOutputStream((content.length + size - 1) / size * (size + 45));</span><br><span class="line">            int left = 0;</span><br><span class="line">            for (int i = 0; i &lt; content.length; ) &#123;</span><br><span class="line">                left = content.length - i;</span><br><span class="line">                if (left &gt; size) &#123;</span><br><span class="line">                    cipher.update(content, i, size);</span><br><span class="line">                    i += size;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    cipher.update(content, i, left);</span><br><span class="line">                    i += left;</span><br><span class="line">                &#125;</span><br><span class="line">                baos.write(cipher.doFinal());</span><br><span class="line">            &#125;</span><br><span class="line">            return baos.toByteArray();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] decrypt(byte[] secret) &#123;</span><br><span class="line">        if (privateKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;private key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            Cipher cipher = Cipher.getInstance(&quot;ECIES&quot;, &quot;BC&quot;);</span><br><span class="line">            cipher.init(Cipher.DECRYPT_MODE, privateKey);</span><br><span class="line">            int size = SIZE + 45;</span><br><span class="line">            ByteArrayOutputStream baos = new ByteArrayOutputStream((secret.length + size + 44) / (size + 45) * size);</span><br><span class="line">            int left = 0;</span><br><span class="line">            for (int i = 0; i &lt; secret.length; ) &#123;</span><br><span class="line">                left = secret.length - i;</span><br><span class="line">                if (left &gt; size) &#123;</span><br><span class="line">                    cipher.update(secret, i, size);</span><br><span class="line">                    i += size;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    cipher.update(secret, i, left);</span><br><span class="line">                    i += left;</span><br><span class="line">                &#125;</span><br><span class="line">                baos.write(cipher.doFinal());</span><br><span class="line">            &#125;</span><br><span class="line">            return baos.toByteArray();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;ecc decrypt failed.&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] sign(byte[] content) &#123;</span><br><span class="line">        if (privateKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;private key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            Signature signature = Signature.getInstance(&quot;SHA1withECDSA&quot;, &quot;BC&quot;);</span><br><span class="line">            signature.initSign(privateKey);</span><br><span class="line">            signature.update(content);</span><br><span class="line">            return signature.sign();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean verify(byte[] sign, byte[] content) &#123;</span><br><span class="line">        if (publicKey == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;public key is null.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            Signature signature = Signature.getInstance(&quot;SHA1withECDSA&quot;, &quot;BC&quot;);</span><br><span class="line">            signature.initVerify(publicKey);</span><br><span class="line">            signature.update(content);</span><br><span class="line">            return signature.verify(sign);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;ecc verify failed.&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="五、各种加密算法对比"><a href="#五、各种加密算法对比" class="headerlink" title="五、各种加密算法对比"></a>五、各种加密算法对比</h1><h2 id="1-散列算法比较"><a href="#1-散列算法比较" class="headerlink" title="1. 散列算法比较"></a>1. 散列算法比较</h2><p><img src="/2019/09/26/常用加密算法/散列算法.PNG"></p>
+<h2 id="2-对称加密算法比较"><a href="#2-对称加密算法比较" class="headerlink" title="2. 对称加密算法比较"></a>2. 对称加密算法比较</h2><p><img src="/2019/09/26/常用加密算法/对称加密.PNG"></p>
+<h2 id="3-非对称加密算法比较"><a href="#3-非对称加密算法比较" class="headerlink" title="3. 非对称加密算法比较"></a>3. 非对称加密算法比较</h2><p><img src="/2019/09/26/常用加密算法/非对称加密.PNG"></p>
+<h2 id="4-对称算法与非对称加密算法"><a href="#4-对称算法与非对称加密算法" class="headerlink" title="4. 对称算法与非对称加密算法"></a>4. 对称算法与非对称加密算法</h2><h3 id="4-1-对称算法"><a href="#4-1-对称算法" class="headerlink" title="4.1. 对称算法"></a>4.1. 对称算法</h3><p>密钥管理：比较难，不适合互联网，一般用于内部系统</p>
+<p>安全性：中</p>
+<p>加密速度：快好 几个数量级 (软件加解密速度至少快 100 倍，每秒可以加解密数 M 比特 数据)，适合大数据量的加解密处理</p>
+<h3 id="4-2-非对称算法"><a href="#4-2-非对称算法" class="headerlink" title="4.2. 非对称算法"></a>4.2. 非对称算法</h3><p>密钥管理：密钥容易管理</p>
+<p>安全性：高</p>
+<p>加密速度：比较慢，适合 小数据量 加解密或数据签名</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了 数字签名，加密和解密，对称加密和非对称加密，然后详细介绍了 MD5，SHA-1，HMAC，DES/AES，RSA 和 ECC 这几种加密算法和代码示例。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你可以打赏我哟</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="xhong 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="xhong 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/导航/" rel="tag"><i class="fa fa-tags" aria-hidden="true"></i> 导航</a>
+          
+            <a href="/tags/分享/" rel="tag"><i class="fa fa-tags" aria-hidden="true"></i> 分享</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/Jsoup详解/" rel="next" title="Jsoup详解">
+                <i class="fa fa-chevron-left"></i> Jsoup详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/27/Http状态码/" rel="prev" title="Http状态码">
+                Http状态码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/xingye.jpg" alt="xhong">
+            
+              <p class="site-author-name" itemprop="name">xhong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhanghaluo55" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="346143235@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="Title" target="_blank">Title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#七种加密算法及实现"><span class="nav-number">1.</span> <span class="nav-text">七种加密算法及实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、数字签名"><span class="nav-number">1.1.</span> <span class="nav-text">一、数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、加密解密"><span class="nav-number">1.2.</span> <span class="nav-text">二、加密解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、对称加密和非对称加密"><span class="nav-number">1.3.</span> <span class="nav-text">三、对称加密和非对称加密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-对称加密"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 对称加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-非对称加密"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 非对称加密</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、常见的签名加密算法"><span class="nav-number">1.4.</span> <span class="nav-text">四、常见的签名加密算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MD5算法"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. MD5算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SHA1算法"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. SHA1算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-HMAC算法"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. HMAC算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-AES-DES-3DES算法"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. AES/DES/3DES算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-RSA算法"><span class="nav-number">1.4.5.</span> <span class="nav-text">5. RSA算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-ECC算法"><span class="nav-number">1.4.6.</span> <span class="nav-text">6. ECC算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、各种加密算法对比"><span class="nav-number">2.</span> <span class="nav-text">五、各种加密算法对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-散列算法比较"><span class="nav-number">2.1.</span> <span class="nav-text">1. 散列算法比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-对称加密算法比较"><span class="nav-number">2.2.</span> <span class="nav-text">2. 对称加密算法比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-非对称加密算法比较"><span class="nav-number">2.3.</span> <span class="nav-text">3. 非对称加密算法比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-对称算法与非对称加密算法"><span class="nav-number">2.4.</span> <span class="nav-text">4. 对称算法与非对称加密算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-对称算法"><span class="nav-number">2.4.1.</span> <span class="nav-text">4.1. 对称算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-非对称算法"><span class="nav-number">2.4.2.</span> <span class="nav-text">4.2. 非对称算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xhong</span>
+
+  
+</div>
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访问数 <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站访问量 <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'PT6Ld2blPcUlWGvoHRPrnADH-gzGzoHsz',
+        appKey: 'Y3yCA4Wa4JNzJMVD8xyPv8wp',
+        placeholder: '快来留言呀！',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

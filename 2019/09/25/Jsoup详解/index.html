@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="导航,分享,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="分享一个用于Java爬虫抓取网页数据的技术 Jsoup一、Jsoup概述1.1、简介   jsoup 是一款Java的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。 1.2、Jsoup的主要功能1）从一个URL，文件或字符串中解析HTML 2）使用DOM或CSS选择器来查找、取出数据 3">
+<meta name="keywords" content="导航,分享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jsoup详解">
+<meta property="og:url" content="http://yoursite.com/2019/09/25/Jsoup详解/index.html">
+<meta property="og:site_name" content="XZHong">
+<meta property="og:description" content="分享一个用于Java爬虫抓取网页数据的技术 Jsoup一、Jsoup概述1.1、简介   jsoup 是一款Java的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。 1.2、Jsoup的主要功能1）从一个URL，文件或字符串中解析HTML 2）使用DOM或CSS选择器来查找、取出数据 3">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/09/25/Jsoup详解/类层次结构.png">
+<meta property="og:updated_time" content="2019-09-25T09:39:37.305Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jsoup详解">
+<meta name="twitter:description" content="分享一个用于Java爬虫抓取网页数据的技术 Jsoup一、Jsoup概述1.1、简介   jsoup 是一款Java的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。 1.2、Jsoup的主要功能1）从一个URL，文件或字符串中解析HTML 2）使用DOM或CSS选择器来查找、取出数据 3">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/25/Jsoup详解/类层次结构.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/25/Jsoup详解/">
+
+
+
+
+
+  <title>Jsoup详解 | XZHong</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XZHong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/25/Jsoup详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xhong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/xingye.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XZHong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jsoup详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T15:09:48+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java实用技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Java实用技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/25/Jsoup详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/Jsoup详解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">本文总阅读数 <i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计 字;</span>
+                
+                <span title="字数统计">
+                  4.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 分钟</span>
+                
+                <span title="阅读时长">
+                  21
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="分享一个用于Java爬虫抓取网页数据的技术-Jsoup"><a href="#分享一个用于Java爬虫抓取网页数据的技术-Jsoup" class="headerlink" title="分享一个用于Java爬虫抓取网页数据的技术 Jsoup"></a>分享一个用于Java爬虫抓取网页数据的技术 Jsoup</h2><h1 id="一、Jsoup概述"><a href="#一、Jsoup概述" class="headerlink" title="一、Jsoup概述"></a>一、Jsoup概述</h1><h2 id="1-1、简介"><a href="#1-1、简介" class="headerlink" title="1.1、简介"></a>1.1、简介</h2><p>   jsoup 是一款Java的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。</p>
+<h2 id="1-2、Jsoup的主要功能"><a href="#1-2、Jsoup的主要功能" class="headerlink" title="1.2、Jsoup的主要功能"></a>1.2、Jsoup的主要功能</h2><pre><code>1）从一个URL，文件或字符串中解析HTML
+2）使用DOM或CSS选择器来查找、取出数据
+3）可操作HTML元素、属性、文本
+注意：jsoup是基于MIT协议发布的，可放心使用于商业项目。
+</code></pre><h2 id="1-3、jsoup的主要类层次结构"><a href="#1-3、jsoup的主要类层次结构" class="headerlink" title="1.3、jsoup的主要类层次结构"></a>1.3、jsoup的主要类层次结构</h2><p><img src="/2019/09/25/Jsoup详解/类层次结构.png"></p>
+<h1 id="二、HTML文档"><a href="#二、HTML文档" class="headerlink" title="二、HTML文档"></a>二、HTML文档</h1><h2 id="2-1、解析和遍历一个HTML文档"><a href="#2-1、解析和遍历一个HTML文档" class="headerlink" title="2.1、解析和遍历一个HTML文档"></a>2.1、解析和遍历一个HTML文档</h2><p>   如何解析一个HTML文档：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String html = &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;First parse&lt;/title&gt;&lt;/head&gt;&quot;+ &quot;&lt;body&gt;&lt;p&gt;Parsed HTML into a doc.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;</span><br><span class="line">Document doc = Jsoup.parse(html);</span><br></pre></td></tr></table></figure>
+</code></pre><p>   其解析器能够尽最大可能从你提供的HTML文档来创见一个干净的解析结果，无论HTML的格式是否完整。比如它可以处理：</p>
+<pre><code>1）没有关闭的标签 :
+&lt;p&gt;Lorem &lt;p&gt;Ipsum parses to &lt;p&gt;Lorem&lt;/p&gt; &lt;p&gt;Ipsum&lt;/p&gt;
+
+2）隐式标签 
+它可以自动将 &lt;td&gt;Table data&lt;/td&gt;包装成&lt;table&gt;&lt;tr&gt;&lt;td&gt;?
+
+3）创建可靠的文档结构  
+html标签包含head 和 body，在head只出现恰当的元素
+</code></pre><h2 id="2-2、一个文档的对象模型"><a href="#2-2、一个文档的对象模型" class="headerlink" title="2.2、一个文档的对象模型"></a>2.2、一个文档的对象模型</h2><pre><code>1）文档由多个Elements和TextNodes组成
+2）其继承结构如下：Document继承Element继承Node. TextNode继承 Node.
+3）一个Element包含一个子节点集合，并拥有一个父Element。他们还提供了一个唯一的子元素过滤列表。
+</code></pre><h2 id="三、解析过程"><a href="#三、解析过程" class="headerlink" title="三、解析过程"></a>三、解析过程</h2><h3 id="3-1、解析一个HTML字符串"><a href="#3-1、解析一个HTML字符串" class="headerlink" title="3.1、解析一个HTML字符串"></a>3.1、解析一个HTML字符串</h3><p>　　1）存在问题<br>       来自用户输入，一个文件或一个网站的HTML字符串，你可能需要对它进行解析并取其内容，或校验其格式是否完整,或想修改它。怎么办？<br>       jsoup能够帮你轻松解决这些问题</p>
+<p>　　2）解决方法<br>        使用静态Jsoup.parse(String html) 方法或 Jsoup.parse(String html, String baseUri)</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String html = &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;First parse&lt;/title&gt;&lt;/head&gt;&quot;+ &quot;&lt;body&gt;&lt;p&gt;Parsed HTML into a doc.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;</span><br><span class="line">Document doc = Jsoup.parse(html);</span><br></pre></td></tr></table></figure>
+
+
+3）描述
+
+    A:
+        parse(String html, String baseUri) 这方法能够将输入的HTML解析为一个新的文档 (Document），参数 baseUri 是用来将相对 URL 转成绝对URL，
+　　　　  并指定从哪个网站获取文档。如这个方法不适用，你可以使用 parse(String html) 方法来解析成HTML字符串如上面的示例。        
+    B:
+        只要解析的不是空字符串，就能返回一个结构合理的文档，其中包含(至少) 一个head和一个body元素。
+    C:
+        一旦拥有了一个Document，你就可以使用Document中适当的方法或它父类 Element和Node中的方法来取得相关数据
+</code></pre><h3 id="3-2、解析一个body片断"><a href="#3-2、解析一个body片断" class="headerlink" title="3.2、解析一个body片断"></a>3.2、解析一个body片断</h3><p>　　1）存在问题<br>        　　假如你有一个HTML片断 (比如. 一个 div 包含一对 p 标签; 一个不完整的HTML文档) 想对它进行解析。这个HTML片断可以是用户提交的一条评论或在一个CMS页面中编辑body部分。<br>　　2）解决<br>       使用Jsoup.parseBodyFragment(String html)方法。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String html = &quot;&lt;div&gt;&lt;p&gt;Lorem ipsum.&lt;/p&gt;&quot;;</span><br><span class="line">Document doc = Jsoup.parseBodyFragment(html);</span><br><span class="line">Element body = doc.body();</span><br></pre></td></tr></table></figure>
+
+
+
+ 3）说明
+
+    A:
+        parseBodyFragment 方法创建一个空壳的文档，并插入解析过的HTML到body元素中。假如你使用正常的 Jsoup.parse(String html) 方法，通常你也可以得到相同的结果，但是明确将用户输入作为body片段处理，以确保用户所提供的任何糟糕的HTML都将被解析成body元素。 
+    B:
+        Document.body() 方法能够取得文档body元素的所有子元素，与 doc.getElementsByTag(&quot;body&quot;)相同。
+</code></pre><h3 id="3-3、从一个URL加载一个Document"><a href="#3-3、从一个URL加载一个Document" class="headerlink" title="3.3、从一个URL加载一个Document"></a>3.3、从一个URL加载一个Document</h3><p>　　1）存在问题<br>　　　　你需要从一个网站获取和解析一个HTML文档，并查找其中的相关数据。<br>　　2）解决方法<br>　　　　使用 Jsoup.connect(String url)方法:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Document doc = Jsoup.connect(&quot;http://example.com/&quot;).get();</span><br><span class="line">String title = doc.title();</span><br></pre></td></tr></table></figure></p>
+<pre><code>3）说明
+</code></pre><p>   connect(String url) 方法创建一个新的 Connection, 和 get() 取得和解析一个HTML文件。如果从该URL获取HTML时发生错误，便会抛出IOException，应适当处理。Connection 接口还提供一个方法链来解决特殊请求，具体如下：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Document doc = Jsoup.connect(&quot;http://example.com&quot;;)</span><br><span class="line">  .data(&quot;query&quot;, &quot;Java&quot;)</span><br><span class="line">  .userAgent(&quot;Mozilla&quot;)</span><br><span class="line">  .cookie(&quot;auth&quot;, &quot;token&quot;)</span><br><span class="line">  .timeout(3000)</span><br><span class="line">  .post();</span><br></pre></td></tr></table></figure>
+</code></pre><p>   这个方法只支持Web URLs (http和https 协议); 假如你需要从一个文件加载，可以使用 parse(File in, String charsetName) 代替。</p>
+<h3 id="3-4、从一个文件加载文档"><a href="#3-4、从一个文件加载文档" class="headerlink" title="3.4、从一个文件加载文档"></a>3.4、从一个文件加载文档</h3><p>　　1）存在问题<br>　　　　在本机硬盘上有一个HTML文件，需要对它进行解析从中抽取数据或进行修改。</p>
+<p>　　2）方法<br>　　　　可以使用静态 Jsoup.parse(File in, String charsetName, String baseUri) 方法：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">	File input = new File(&quot;/tmp/input.html&quot;);</span><br><span class="line">Document doc = Jsoup.parse(input, &quot;UTF-8&quot;, &quot;http://example.com/&quot;;);</span><br></pre></td></tr></table></figure></p>
+<pre><code>3）说明
+   A:
+       parse(File in, String charsetName, String baseUri) 这个方法用来加载和解析一个HTML文件。如在加载文件的时候发生错误，将抛出IOException，应作适当处理。
+   B:
+       baseUri 参数用于解决文件中URLs是相对路径的问题。如果不需要可以传入一个空的字符串。
+   C:
+       另外还有一个方法parse(File in, String charsetName) ，它使用文件的路径做为 baseUri。 这个方法适用于如果被解析文件位于网站的本地文件系统,且相关链接也指向该文件系统。
+</code></pre><h2 id="四、数据抽取"><a href="#四、数据抽取" class="headerlink" title="四、数据抽取"></a>四、数据抽取</h2><h3 id="4-1、使用DOM方法来遍历一个文档"><a href="#4-1、使用DOM方法来遍历一个文档" class="headerlink" title="4.1、使用DOM方法来遍历一个文档"></a>4.1、使用DOM方法来遍历一个文档</h3><p>　　1）存在问题<br>　　　　你有一个HTML文档要从中提取数据，并了解这个HTML文档的结构。<br>　　2）方法<br>　　　　将HTML解析成一个Document之后，就可以使用类似于DOM的方法进行操作。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">File input = new File(&quot;/tmp/input.html&quot;);</span><br><span class="line">Document doc = Jsoup.parse(input, &quot;UTF-8&quot;, &quot;http://example.com/&quot;);</span><br><span class="line"></span><br><span class="line">Element content = doc.getElementById(&quot;content&quot;);</span><br><span class="line">Elements links = content.getElementsByTag(&quot;a&quot;);</span><br><span class="line">for (Element link : links) &#123;</span><br><span class="line">  String linkHref = link.attr(&quot;href&quot;);</span><br><span class="line">  String linkText = link.text();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>   3）说明</p>
+<p>　　Elements这个对象提供了一系列类似于DOM的方法来查找元素，抽取并处理其中的数据。具体如下：</p>
+<p>　　A：查看元素</p>
+<pre><code>getElementById(String id)
+　　　　getElementsByTag(String tag)
+　　　　getElementsByClass(String className)
+　　　　getElementsByAttribute(String key) (and related methods)
+　　　　Element siblings: siblingElements(), firstElementSibling(), lastElementSibling(); nextElementSibling(),    previousElementSibling()
+　　　　Graph: parent(), children(), child(int index)
+</code></pre><p>   B：元素数据</p>
+<pre><code>attr(String key)获取属性
+attr(String key, String value)设置属性
+　 attributes()获取所有属性
+　 id(), className() and classNames()
+　 text()获取文本内容
+text(String value) 设置文本内容
+　 html()获取元素内
+HTMLhtml(String value)设置元素内的HTML内容
+　 outerHtml()获取元素外HTML内容
+　 data()获取数据内容（例如：script和style标签)
+　 tag() and tagName()
+</code></pre><p>　C：操作HTML和文本</p>
+<pre><code>append(String html), prepend(String html)appendText(String text), prependText(String text)
+appendElement(String tagName), prependElement(String tagName)
+html(String value)
+</code></pre><h3 id="4-2、使用选择器语法来查找元素"><a href="#4-2、使用选择器语法来查找元素" class="headerlink" title="4.2、使用选择器语法来查找元素"></a>4.2、使用选择器语法来查找元素</h3><p>   1）存在问题</p>
+<p>　　　　你想使用类似于CSS或jQuery的语法来查找和操作元素。</p>
+<p>　  2）方法</p>
+<p>　　　　可以使用Element.select(String selector) 和 Elements.select(String selector) 方法实现：<br>        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">File input = new File(&quot;/tmp/input.html&quot;);</span><br><span class="line">Document doc = Jsoup.parse(input, &quot;UTF-8&quot;, &quot;http://example.com/&quot;);</span><br><span class="line"></span><br><span class="line">Elements links = doc.select(&quot;a[href]&quot;); //带有href属性的a元素	</span><br><span class="line">Elements pngs = doc.select(&quot;img[src$=.png]&quot;);</span><br><span class="line">  //扩展名为.png的图片</span><br><span class="line"></span><br><span class="line">Element masthead = doc.select(&quot;div.masthead&quot;).first();</span><br><span class="line">  //class等于masthead的div标签</span><br><span class="line"></span><br><span class="line">Elements resultLinks = doc.select(&quot;h3.r &gt; a&quot;); //在h3元素之后的a元素</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></p>
+<pre><code>3）说明
+</code></pre><p>　　　　jsoup elements对象支持类似于CSS (或jquery)的选择器语法，来实现非常强大和灵活的查找功能。.</p>
+<p>　　　　这个select 方法在Document, Element,或Elements对象中都可以使用。且是上下文相关的，因此可实现指定元素的过滤，或者链式选择访问。</p>
+<p>　　　　Select方法将返回一个Elements集合，并提供一组方法来抽取和处理结果。</p>
+<p>　　　　A：Selector选择器概述　　　</p>
+<p>　　　　　　tagname: 通过标签查找元素，比如：a<br>　　　　　　ns|tag: 通过标签在命名空间查找元素，比如：可以用 fb|name 语法来查找 <a href="fb:name" target="_blank" rel="noopener">fb:name</a> 元素<br>　　　　　　#id: 通过ID查找元素，比如：#logo<br>　　　　　　.class: 通过class名称查找元素，比如：.masthead<br>　　　　　　[attribute]: 利用属性查找元素，比如：[href]<br>　　　　　　[^attr]: 利用属性名前缀来查找元素，比如：可以用[^data-] 来查找带有HTML5 Dataset属性的元素<br>　　　　　　[attr=value]: 利用属性值来查找元素，比如：[width=500]<br>　　　　　　[attr^=value], [attr$=value], [attr<em>=value]: 利用匹配属性值开头、结尾或包含属性值来查找元素，比如：[href</em>=/path/]<br>　　　　　　[attr~=regex]: 利用属性值匹配正则表达式来查找元素，比如： img[src~=(?i).(png|jpe?g)]<br>　　　　　　*: 这个符号将匹配所有元素</p>
+<p>　　　　B：Selector选择器组合使用</p>
+<p>　　　　　　el#id: 元素+ID，比如： div#logo<br>　　　　　　el.class: 元素+class，比如： div.masthead<br>　　　　　　el[attr]: 元素+class，比如： a[href]<br>　　　　　　任意组合，比如：a[href].highlight<br>　　　　　　ancestor child: 查找某个元素下子元素，比如：可以用.body p 查找在”body”元素下的所有 p元素<br>　　　　　　parent &gt; child: 查找某个父元素下的直接子元素，比如：可以用div.content &gt; p 查找 p 元素，也可以用body &gt; * 查找body标签下所有直接子元素<br>　　　　　　siblingA + siblingB: 查找在A元素之前第一个同级元素B，比如：div.head + div<br>　　　　　　siblingA ~ siblingX: 查找A元素之前的同级X元素，比如：h1 ~ p<br>　　　　　　el, el, el:多个选择器组合，查找匹配任一选择器的唯一元素，例如：div.masthead, div.logo</p>
+<p>　　　　C：伪选择器selectors</p>
+<p>　　　　　　:lt(n): 查找哪些元素的同级索引值（它的位置在DOM树中是相对于它的父节点）小于n，比如：td:lt(3) 表示小于三列的元素<br>　　　　　　:gt(n):查找哪些元素的同级索引值大于n，比如： div p:gt(2)表示哪些div中有包含2个以上的p元素<br>　　　　　　:eq(n): 查找哪些元素的同级索引值与n相等，比如：form input:eq(1)表示包含一个input标签的Form元素<br>　　　　　　:has(seletor): 查找匹配选择器包含元素的元素，比如：div:has(p)表示哪些div包含了p元素<br>　　　　　　:not(selector): 查找与选择器不匹配的元素，比如： div:not(.logo) 表示不包含 class=”logo” 元素的所有 div 列表<br>　　　　　　:contains(text): 查找包含给定文本的元素，搜索不区分大不写，比如： p:contains(jsoup)<br>　　　　　　:containsOwn(text): 查找直接包含给定文本的元素<br>　　　　　　:matches(regex): 查找哪些元素的文本匹配指定的正则表达式，比如：div:matches((?i)login)<br>　　　　　　:matchesOwn(regex): 查找自身包含文本匹配指定正则表达式的元素<br>　　　　　　注意：上述伪选择器索引是从0开始的，也就是</p>
+<h3 id="4-3、从元素抽取属性，本文和HTML"><a href="#4-3、从元素抽取属性，本文和HTML" class="headerlink" title="4.3、从元素抽取属性，本文和HTML"></a>4.3、从元素抽取属性，本文和HTML</h3><p>　　1）存在问题</p>
+<p>　　　　在解析获得一个Document实例对象，并查找到一些元素之后，你希望取得在这些元素中的数据。</p>
+<p>　　2）方法　　</p>
+<p>　　　　要取得一个属性的值，可以使用Node.attr(String key) 方法<br>　　　　对于一个元素中的文本，可以使用Element.text()方法<br>　　　　对于要取得元素或属性中的HTML内容，可以使用Element.html(), 或 Node.outerHtml()方法<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String html = &quot;&lt;p&gt;An &lt;a href=&apos;http://example.com/&apos;&gt;&lt;b&gt;example&lt;/b&gt;&lt;/a&gt; link.&lt;/p&gt;&quot;;</span><br><span class="line">	　　Document doc = Jsoup.parse(html);//解析HTML字符串返回一个Document实现</span><br><span class="line">	　　Element link = doc.select(&quot;a&quot;).first();//查找第一个a元素</span><br><span class="line"></span><br><span class="line">	　　String text = doc.body().text(); // &quot;An example link&quot;//取得字符串中的文本</span><br><span class="line">	　　String linkHref = link.attr(&quot;href&quot;); // &quot;http://example.com/&quot;//取得链接地址</span><br><span class="line">	　　String linkText = link.text(); // &quot;example&quot;&quot;//取得链接地址中的文本</span><br><span class="line"></span><br><span class="line">	　　String linkOuterH = link.outerHtml(); </span><br><span class="line">　　   // &quot;&lt;a href=&quot;http://example.com&quot;&gt;&lt;b&gt;example&lt;/b&gt;&lt;/a&gt;&quot;</span><br><span class="line">	　　String linkInnerH = link.html(); // &quot;&lt;b&gt;example&lt;/b&gt;&quot;//取得链接内的html内容</span><br></pre></td></tr></table></figure></p>
+<p>   3）说明　　</p>
+<p>　　　　上述方法是元素数据访问的核心办法。此外还其它一些方法可以使用：    </p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Element.id()</span><br><span class="line">Element.tagName()</span><br><span class="line">Element.className() and Element.hasClass(String className)</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="4-4、处理URLs"><a href="#4-4、处理URLs" class="headerlink" title="4.4、处理URLs"></a>4.4、处理URLs</h3><p>   1）存在问题</p>
+<p>　　　　你有一个包含相对URLs路径的HTML文档，需要将这些相对路径转换成绝对路径的URLs。</p>
+<p>　　2）方法　　　　</p>
+<p>　　　　在你解析文档时确保有指定base URI，然后<br>　　　　使用 abs: 属性前缀来取得包含base URI的绝对路径。代码如下：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	　  Document doc = Jsoup.connect(&quot;http://www.open-open.com&quot;).get();</span><br><span class="line"></span><br><span class="line">	　　Element link = doc.select(&quot;a&quot;).first();</span><br><span class="line">	　　String relHref = link.attr(&quot;href&quot;); // == &quot;/&quot;</span><br><span class="line">	　　String absHref = link.attr(&quot;abs:href&quot;); // &quot;http://www.open-open.com/&quot;</span><br></pre></td></tr></table></figure>
+</code></pre><p>   3）说明</p>
+<p>　　　　在HTML元素中，URLs经常写成相对于文档位置的相对路径： <a href="/download">…</a>.</p>
+<p>　　　　当你使用 Node.attr(String key) 方法来取得a元素的href属性时，它将直接返回在HTML源码中指定定的值。</p>
+<p>　　　　假如你需要取得一个绝对路径，需要在属性名前加 abs: 前缀。这样就可以返回包含根路径的URL地址attr(“abs:href”)</p>
+<p>　　　　因此，在解析HTML文档时，定义base URI非常重要。</p>
+<p>　　　　如果你不想使用abs: 前缀，还有一个方法能够实现同样的功能 Node.absUrl(String key)。</p>
+<h3 id="4-5、实例程序：获取所有连链接"><a href="#4-5、实例程序：获取所有连链接" class="headerlink" title="4.5、实例程序：获取所有连链接"></a>4.5、实例程序：获取所有连链接</h3><p>　　1）说明</p>
+<p>　　　　这个示例程序将展示如何从一个URL获得一个页面。然后提取页面中的所有链接、图片和其它辅助内容。并检查URLs和文本信息。</p>
+<p>　　2）运行下面程序需要执行一个URLs作为参数<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import org.jsoup.Jsoup;</span><br><span class="line">import org.jsoup.helper.Validate;</span><br><span class="line">import org.jsoup.nodes.Document;</span><br><span class="line">import org.jsoup.nodes.Element;</span><br><span class="line">import org.jsoup.select.Elements;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Example program to list links from a URL.</span><br><span class="line"> */</span><br><span class="line">public class ListLinks &#123;</span><br><span class="line">    public static void main(String[] args) throws IOException &#123;</span><br><span class="line">        Validate.isTrue(args.length == 1, &quot;usage: supply url to fetch&quot;);</span><br><span class="line">        String url = args[0];</span><br><span class="line">        print(&quot;Fetching %s...&quot;, url);</span><br><span class="line"></span><br><span class="line">        Document doc = Jsoup.connect(url).get();</span><br><span class="line">        Elements links = doc.select(&quot;a[href]&quot;);</span><br><span class="line">        Elements media = doc.select(&quot;[src]&quot;);</span><br><span class="line">        Elements imports = doc.select(&quot;link[href]&quot;);</span><br><span class="line"></span><br><span class="line">        print(&quot;\nMedia: (%d)&quot;, media.size());</span><br><span class="line">        for (Element src : media) &#123;</span><br><span class="line">            if (src.tagName().equals(&quot;img&quot;))</span><br><span class="line">                print(&quot; * %s: &lt;%s&gt; %sx%s (%s)&quot;,</span><br><span class="line">                        src.tagName(), src.attr(&quot;abs:src&quot;), src.attr(&quot;width&quot;), src.attr(&quot;height&quot;),</span><br><span class="line">                        trim(src.attr(&quot;alt&quot;), 20));</span><br><span class="line">            else</span><br><span class="line">                print(&quot; * %s: &lt;%s&gt;&quot;, src.tagName(), src.attr(&quot;abs:src&quot;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        print(&quot;\nImports: (%d)&quot;, imports.size());</span><br><span class="line">        for (Element link : imports) &#123;</span><br><span class="line">            print(&quot; * %s &lt;%s&gt; (%s)&quot;, link.tagName(),link.attr(&quot;abs:href&quot;), link.attr(&quot;rel&quot;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        print(&quot;\nLinks: (%d)&quot;, links.size());</span><br><span class="line">        for (Element link : links) &#123;</span><br><span class="line">            print(&quot; * a: &lt;%s&gt;  (%s)&quot;, link.attr(&quot;abs:href&quot;), trim(link.text(), 35));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void print(String msg, Object... args) &#123;</span><br><span class="line">        System.out.println(String.format(msg, args));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static String trim(String s, int width) &#123;</span><br><span class="line">        if (s.length() &gt; width)</span><br><span class="line">            return s.substring(0, width-1) + &quot;.&quot;;</span><br><span class="line">        else</span><br><span class="line">            return s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>   3）查看结果</p>
+<p>   Fetching <a href="http://news.ycombinator.com/.." target="_blank" rel="noopener">http://news.ycombinator.com/..</a>.</p>
+<pre><code>Media: (38)
+ * img: &lt;http://ycombinator.com/images/y18.gif&gt; 18x18 ()
+ * img: &lt;http://ycombinator.com/images/s.gif&gt; 10x1 ()
+ * img: &lt;http://ycombinator.com/images/grayarrow.gif&gt; x ()
+ * img: &lt;http://ycombinator.com/images/s.gif&gt; 0x10 ()
+ * script: &lt;http://www.co2stats.com/propres.php?s=1138&gt;
+ * img: &lt;http://ycombinator.com/images/s.gif&gt; 15x1 ()
+ * img: &lt;http://ycombinator.com/images/hnsearch.png&gt; x ()
+ * img: &lt;http://ycombinator.com/images/s.gif&gt; 25x1 ()
+ * img: &lt;http://mixpanel.com/site_media/images/mixpanel_partner_logo_borderless.gif&gt; x (Analytics by Mixpan.)
+
+Imports: (2)
+ * link &lt;http://ycombinator.com/news.css&gt; (stylesheet)
+ * link &lt;http://ycombinator.com/favicon.ico&gt; (shortcut icon)
+
+Links: (141)
+ * a: &lt;http://ycombinator.com&gt;  ()
+ * a: &lt;http://news.ycombinator.com/news&gt;  (Hacker News)
+ * a: &lt;http://news.ycombinator.com/newest&gt;  (new)
+ * a: &lt;http://news.ycombinator.com/newcomments&gt;  (comments)
+ * a: &lt;http://news.ycombinator.com/leaders&gt;  (leaders)
+ * a: &lt;http://news.ycombinator.com/jobs&gt;  (jobs)
+ * a: &lt;http://news.ycombinator.com/submit&gt;  (submit)
+ * a: &lt;http://news.ycombinator.com/x?fnid=JKhQjfU7gW&gt;  (login)
+ * a: &lt;http://news.ycombinator.com/vote?for=1094578&amp;dir=up&amp;whence=%6e%65%77%73&gt;  ()
+ * a: &lt;http://www.readwriteweb.com/archives/facebook_gets_faster_debuts_homegrown_php_compiler.php?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+readwriteweb+%28ReadWriteWeb%29&amp;utm_content=Twitter&gt;  (Facebook speeds up PHP)
+ * a: &lt;http://news.ycombinator.com/user?id=mcxx&gt;  (mcxx)
+ * a: &lt;http://news.ycombinator.com/item?id=1094578&gt;  (9 comments)
+ * a: &lt;http://news.ycombinator.com/vote?for=1094649&amp;dir=up&amp;whence=%6e%65%77%73&gt;  ()
+ * a: &lt;http://groups.google.com/group/django-developers/msg/a65fbbc8effcd914&gt;  (&quot;Tough. Django produces XHTML.&quot;)
+ * a: &lt;http://news.ycombinator.com/user?id=andybak&gt;  (andybak)
+ * a: &lt;http://news.ycombinator.com/item?id=1094649&gt;  (3 comments)
+ * a: &lt;http://news.ycombinator.com/vote?for=1093927&amp;dir=up&amp;whence=%6e%65%77%73&gt;  ()
+ * a: &lt;http://news.ycombinator.com/x?fnid=p2sdPLE7Ce&gt;  (More)
+ * a: &lt;http://news.ycombinator.com/lists&gt;  (Lists)
+ * a: &lt;http://news.ycombinator.com/rss&gt;  (RSS)
+ * a: &lt;http://ycombinator.com/bookmarklet.html&gt;  (Bookmarklet)
+ * a: &lt;http://ycombinator.com/newsguidelines.html&gt;  (Guidelines)
+ * a: &lt;http://ycombinator.com/newsfaq.html&gt;  (FAQ)
+ * a: &lt;http://ycombinator.com/newsnews.html&gt;  (News News)
+ * a: &lt;http://news.ycombinator.com/item?id=363&gt;  (Feature Requests)
+ * a: &lt;http://ycombinator.com&gt;  (Y Combinator)
+ * a: &lt;http://ycombinator.com/w2010.html&gt;  (Apply)
+ * a: &lt;http://ycombinator.com/lib.html&gt;  (Library)
+ * a: &lt;http://www.webmynd.com/html/hackernews.html&gt;  ()
+ * a: &lt;http://mixpanel.com/?from=yc&gt;  ()
+</code></pre><h1 id="五、数据修改"><a href="#五、数据修改" class="headerlink" title="五、数据修改"></a>五、数据修改</h1><h2 id="5-1、设置属性值"><a href="#5-1、设置属性值" class="headerlink" title="5.1、设置属性值"></a>5.1、设置属性值</h2><p>　　1）存在问题　　　</p>
+<p>　　　　在你解析一个Document之后可能想修改其中的某些属性值，然后再保存到磁盘或都输出到前台页面。</p>
+<p>　　2）方法　</p>
+<p>　　　　可以使用属性设置方法 Element.attr(String key, String value), 和 Elements.attr(String key, String value).</p>
+<p>　　　　假如你需要修改一个元素的 class 属性，可以使用 Element.addClass(String className) 和 Element.removeClass(String className) 方法。</p>
+<p>　　　　Elements 提供了批量操作元素属性和class的方法，比如：要为div中的每一个a元素都添加一个 rel=”nofollow” 可以使用如下方法：</p>
+<p>　　　　doc.select(“div.comments a”).attr(“rel”, “nofollow”);</p>
+<p>　　3）说明</p>
+<p>　　　　与Element中的其它方法一样，attr 方法也是返回当 Element (或在使用选择器是返回 Elements 集合)。</p>
+<p>　　　　这样能够很方便使用方法连用的书写方式。比如：</p>
+<p>　　　　doc.select(“div.masthead”).attr(“title”, “jsoup”).addClass(“round-box”);</p>
+<h2 id="5-2、设置一个元素的HTML内容"><a href="#5-2、设置一个元素的HTML内容" class="headerlink" title="5.2、设置一个元素的HTML内容"></a>5.2、设置一个元素的HTML内容</h2><p>　　1）存在问题</p>
+<p>　　　　你需要一个元素中的HTML的内容</p>
+<p>　　2）方法</p>
+<p>　　　　可以使用Element中的HTML设置方法具体如下：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Element div = doc.select(&quot;div&quot;).first(); // &lt;div&gt;&lt;/div&gt;</span><br><span class="line">div.html(&quot;&lt;p&gt;lorem ipsum&lt;/p&gt;&quot;); // &lt;div&gt;&lt;p&gt;lorem ipsum&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">div.prepend(&quot;&lt;p&gt;First&lt;/p&gt;&quot;);//在div前添加html内容</span><br><span class="line">div.append(&quot;&lt;p&gt;Last&lt;/p&gt;&quot;);//在div之后添加html内容</span><br><span class="line">// 添完后的结果: &lt;div&gt;&lt;p&gt;First&lt;/p&gt;&lt;p&gt;lorem ipsum&lt;/p&gt;&lt;p&gt;Last&lt;/p&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">Element span = doc.select(&quot;span&quot;).first(); // &lt;span&gt;One&lt;/span&gt;</span><br><span class="line">span.wrap(&quot;&lt;li&gt;&lt;a href=&apos;http://example.com/&apos;&gt;&lt;/a&gt;&lt;/li&gt;&quot;);</span><br><span class="line">// 添完后的结果: &lt;li&gt;&lt;a href=&quot;http://example.com&quot;&gt;&lt;span&gt;One&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你可以打赏我哟</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="xhong 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="xhong 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/导航/" rel="tag"><i class="fa fa-tags" aria-hidden="true"></i> 导航</a>
+          
+            <a href="/tags/分享/" rel="tag"><i class="fa fa-tags" aria-hidden="true"></i> 分享</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/06/Linux常用命令大全/" rel="next" title="Linux常用命令大全">
+                <i class="fa fa-chevron-left"></i> Linux常用命令大全
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/26/常用加密算法/" rel="prev" title="常用加密算法">
+                常用加密算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/xingye.jpg" alt="xhong">
+            
+              <p class="site-author-name" itemprop="name">xhong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhanghaluo55" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="346143235@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="Title" target="_blank">Title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分享一个用于Java爬虫抓取网页数据的技术-Jsoup"><span class="nav-number">1.</span> <span class="nav-text">分享一个用于Java爬虫抓取网页数据的技术 Jsoup</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#一、Jsoup概述"><span class="nav-number"></span> <span class="nav-text">一、Jsoup概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、简介"><span class="nav-number">1.</span> <span class="nav-text">1.1、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、Jsoup的主要功能"><span class="nav-number">2.</span> <span class="nav-text">1.2、Jsoup的主要功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3、jsoup的主要类层次结构"><span class="nav-number">3.</span> <span class="nav-text">1.3、jsoup的主要类层次结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、HTML文档"><span class="nav-number"></span> <span class="nav-text">二、HTML文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、解析和遍历一个HTML文档"><span class="nav-number">1.</span> <span class="nav-text">2.1、解析和遍历一个HTML文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、一个文档的对象模型"><span class="nav-number">2.</span> <span class="nav-text">2.2、一个文档的对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、解析过程"><span class="nav-number">3.</span> <span class="nav-text">三、解析过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1、解析一个HTML字符串"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、解析一个HTML字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2、解析一个body片断"><span class="nav-number">3.2.</span> <span class="nav-text">3.2、解析一个body片断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3、从一个URL加载一个Document"><span class="nav-number">3.3.</span> <span class="nav-text">3.3、从一个URL加载一个Document</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4、从一个文件加载文档"><span class="nav-number">3.4.</span> <span class="nav-text">3.4、从一个文件加载文档</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、数据抽取"><span class="nav-number">4.</span> <span class="nav-text">四、数据抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1、使用DOM方法来遍历一个文档"><span class="nav-number">4.1.</span> <span class="nav-text">4.1、使用DOM方法来遍历一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2、使用选择器语法来查找元素"><span class="nav-number">4.2.</span> <span class="nav-text">4.2、使用选择器语法来查找元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3、从元素抽取属性，本文和HTML"><span class="nav-number">4.3.</span> <span class="nav-text">4.3、从元素抽取属性，本文和HTML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4、处理URLs"><span class="nav-number">4.4.</span> <span class="nav-text">4.4、处理URLs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5、实例程序：获取所有连链接"><span class="nav-number">4.5.</span> <span class="nav-text">4.5、实例程序：获取所有连链接</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、数据修改"><span class="nav-number"></span> <span class="nav-text">五、数据修改</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1、设置属性值"><span class="nav-number">1.</span> <span class="nav-text">5.1、设置属性值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2、设置一个元素的HTML内容"><span class="nav-number">2.</span> <span class="nav-text">5.2、设置一个元素的HTML内容</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xhong</span>
+
+  
+</div>
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访问数 <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站访问量 <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'PT6Ld2blPcUlWGvoHRPrnADH-gzGzoHsz',
+        appKey: 'Y3yCA4Wa4JNzJMVD8xyPv8wp',
+        placeholder: '快来留言呀！',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
